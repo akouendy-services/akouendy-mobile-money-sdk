@@ -1,4 +1,34 @@
 # Go API client for swagger
+swagger-codegen generate -i http://127.0.0.1:1390/apidocs.json -l go -o .
+
+```
+package main
+
+import (
+	"context"
+	"fmt"
+
+	mobilemoney "github.com/akouendy-services/akouendy-mobile-money-sdk"
+)
+
+func main() {
+
+	url := "http://127.0.0.1:1390"
+	client := mobilemoney.NewAPIClient(&mobilemoney.Configuration{BasePath: url})
+	data, resp, err := client.ProviderApi.FindAllProviders(context.TODO(), &mobilemoney.ProviderApiFindAllProvidersOpts{})
+	if err != nil {
+		fmt.Println("===== err ==== ", err)
+		fmt.Println("===== resp ==== ", resp.StatusCode)
+	} else {
+		fmt.Println("===== data ==== ", data)
+		fmt.Println("===== resp ==== ", resp)
+		fmt.Println("===== resp ==== ", resp.StatusCode)
+
+	}
+
+}
+```
+
 
 Resource for api
 
