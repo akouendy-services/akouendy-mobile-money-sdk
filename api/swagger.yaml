@@ -1,0 +1,1239 @@
+openapi: 3.0.1
+info:
+  title: Documentation
+  description: Resource for api
+  contact:
+    name: Andictl
+    url: https://andiwork.github.io
+    email: andictl@andi.dev
+  license:
+    name: Apache License Version 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.txt
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /v1/account/retailer/balance:
+    post:
+      tags:
+      - Account
+      summary: Get retailer balance
+      operationId: getRetailerBalance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/account/{msisdn}/{type}:
+    get:
+      tags:
+      - Account
+      summary: get a Settings
+      operationId: getAccount
+      parameters:
+      - name: msisdn
+        in: path
+        description: account msisdn
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: type
+        in: path
+        description: "account type (retailer,customer)"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/shared.AccountProfile'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/shared.AccountProfile'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+  /v1/account/{transactionId}/status:
+    get:
+      tags:
+      - Account
+      summary: get a Settings
+      operationId: getTransactionStatus
+      parameters:
+      - name: transactionId
+        in: path
+        description: transaction Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/shared.TransactionStatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/shared.TransactionStatus'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+  /v1/cashin/all:
+    get:
+      tags:
+      - Cashin
+      summary: get all cashins
+      operationId: findAllCashins
+      parameters:
+      - name: query
+        in: query
+        description: "Filter. e.g. col1:v1,col2:v2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: "Order. e.g. col1 desc,col2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Start position of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limit the size of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/cashin.Cashin'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/cashin.Cashin'
+      security:
+      - jwt: []
+  /v1/cashin/create:
+    post:
+      tags:
+      - Cashin
+      summary: create a Cashin
+      operationId: createCashin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cashin.Cashin'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/cashin.Cashin'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/cashin/update:
+    put:
+      tags:
+      - Cashin
+      summary: update a Cashin
+      operationId: updateCashin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cashin.Cashin'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/cashin.Cashin'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/cashin/{id}:
+    get:
+      tags:
+      - Cashin
+      summary: get a Cashin
+      operationId: findCashin
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Cashin
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cashin.Cashin'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/cashin.Cashin'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+    delete:
+      tags:
+      - Cashin
+      summary: delete a Cashin
+      operationId: removeCashin
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Cashin
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+  /v1/merchant/all:
+    get:
+      tags:
+      - Merchant
+      summary: get all merchants
+      operationId: findAllMerchants
+      parameters:
+      - name: query
+        in: query
+        description: "Filter. e.g. col1:v1,col2:v2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: "Order. e.g. col1 desc,col2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Start position of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limit the size of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/merchant.Merchant'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/merchant.Merchant'
+      security:
+      - jwt: []
+  /v1/merchant/create:
+    post:
+      tags:
+      - Merchant
+      summary: create a Merchant
+      operationId: createMerchant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/merchant.Merchant'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/merchant.Merchant'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/init-payment:
+    post:
+      tags:
+      - Merchant
+      summary: Init payment request
+      operationId: initPayment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/merchant.InitPaymentRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/merchant.InitPaymentRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/payment/gen-otp:
+    post:
+      tags:
+      - Merchant
+      summary: Generate Otp
+      operationId: generateOtp
+      parameters:
+      - name: transactionId
+        in: path
+        description: payment id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/payment/one-step:
+    post:
+      tags:
+      - Merchant
+      summary: Generate Otp
+      operationId: oneStepPayment
+      parameters:
+      - name: transactionId
+        in: path
+        description: payment id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/merchant.OneStepPayment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/merchant.OneStepPayment'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/payment/{transactionId}/confirm:
+    post:
+      tags:
+      - Merchant
+      summary: Init payment request
+      operationId: confirmPayment
+      parameters:
+      - name: transactionId
+        in: path
+        description: payment id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/update:
+    put:
+      tags:
+      - Merchant
+      summary: update a Merchant
+      operationId: updateMerchant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/merchant.Merchant'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/merchant.Merchant'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/{id}:
+    get:
+      tags:
+      - Merchant
+      summary: get a Merchant
+      operationId: findMerchant
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Merchant
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/merchant.Merchant'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/merchant.Merchant'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+    delete:
+      tags:
+      - Merchant
+      summary: delete a Merchant
+      operationId: removeMerchant
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Merchant
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+  /v1/provider/all:
+    get:
+      tags:
+      - Provider
+      summary: get all providers
+      operationId: findAllProviders
+      parameters:
+      - name: query
+        in: query
+        description: "Filter. e.g. col1:v1,col2:v2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: "Order. e.g. col1 desc,col2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Start position of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limit the size of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/provider.Provider'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/provider.Provider'
+      security:
+      - jwt: []
+  /v1/provider/create:
+    post:
+      tags:
+      - Provider
+      summary: create a Provider
+      operationId: createProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/provider.Provider'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/provider.Provider'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/provider/update:
+    put:
+      tags:
+      - Provider
+      summary: update a Provider
+      operationId: updateProvider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/provider.Provider'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/provider.Provider'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/provider/{id}:
+    get:
+      tags:
+      - Provider
+      summary: get a Provider
+      operationId: findProvider
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Provider
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/provider.Provider'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/provider.Provider'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+    delete:
+      tags:
+      - Provider
+      summary: delete a Provider
+      operationId: removeProvider
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Provider
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+  /v1/settings/all:
+    get:
+      tags:
+      - Settings
+      summary: get all settings
+      operationId: findAllSettingss
+      parameters:
+      - name: query
+        in: query
+        description: "Filter. e.g. col1:v1,col2:v2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: "Order. e.g. col1 desc,col2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Start position of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limit the size of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/settings.Settings'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/settings.Settings'
+      security:
+      - jwt: []
+  /v1/settings/public-key:
+    get:
+      tags:
+      - Settings
+      summary: Get account public key
+      operationId: getPublicKey
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/shared.PublicKey'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/shared.PublicKey'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+  /v1/settings/test-numbers:
+    get:
+      tags:
+      - Settings
+      summary: Get Test numbers
+      operationId: getTestNumber
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/shared.TestNumber'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/shared.TestNumber'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+  /v1/settings/update:
+    put:
+      tags:
+      - Settings
+      summary: update a Settings
+      operationId: updateSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/settings.Settings'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/settings.Settings'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/settings/{id}:
+    get:
+      tags:
+      - Settings
+      summary: get a Settings
+      operationId: findSettings
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Settings
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/settings.Settings'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/settings.Settings'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+    delete:
+      tags:
+      - Settings
+      summary: delete a Settings
+      operationId: removeSettings
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Settings
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+  /v1/settings/{providerId}/create:
+    post:
+      tags:
+      - Settings
+      summary: create a Settings
+      operationId: createSettings
+      parameters:
+      - name: providerId
+        in: path
+        description: Provider id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/settings.Settings'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/settings.Settings'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    ".amount":
+      required:
+      - unit
+      - value
+      type: object
+      properties:
+        unit:
+          type: string
+        value:
+          type: integer
+          format: int32
+    ".balance":
+      required:
+      - unit
+      - value
+      type: object
+      properties:
+        unit:
+          type: string
+        value:
+          type: number
+          format: double
+      example:
+        unit: unit
+        value: 0.8008281904610115
+    ".customer":
+      required:
+      - id
+      - idType
+      - otp
+      type: object
+      properties:
+        id:
+          type: string
+        idType:
+          type: string
+        otp:
+          type: string
+    ".frozenBalance":
+      required:
+      - unit
+      - value
+      type: object
+      properties:
+        unit:
+          type: string
+        value:
+          type: number
+          format: double
+      example:
+        unit: unit
+        value: 6.027456183070403
+    ".partner":
+      required:
+      - id
+      - idType
+      type: object
+      properties:
+        id:
+          type: string
+        idType:
+          type: string
+    cashin.Cashin:
+      required:
+      - ID
+      type: object
+      properties:
+        ID:
+          type: string
+      example:
+        ID: ID
+    gorm.Model:
+      required:
+      - ID
+      type: object
+      properties:
+        ID:
+          type: string
+    merchant.InitPaymentRequest:
+      required:
+      - amount
+      - customer
+      - method
+      - partner
+      - receiveNotification
+      - reference
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/.amount'
+        customer:
+          $ref: '#/components/schemas/shared.Identifier'
+        method:
+          type: string
+        partner:
+          $ref: '#/components/schemas/shared.Identifier'
+        receiveNotification:
+          type: boolean
+        reference:
+          type: string
+    merchant.Merchant:
+      required:
+      - ID
+      type: object
+      properties:
+        ID:
+          type: string
+      example:
+        ID: ID
+    merchant.OneStepPayment:
+      required:
+      - amount
+      - customer
+      - partner
+      - reference
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/.amount'
+        customer:
+          $ref: '#/components/schemas/.customer'
+        partner:
+          $ref: '#/components/schemas/.partner'
+        reference:
+          type: string
+    provider.Provider:
+      required:
+      - ID
+      - Name
+      - Platform
+      - Token
+      - Type
+      type: object
+      properties:
+        ID:
+          type: string
+        Name:
+          type: string
+        Platform:
+          type: string
+        Token:
+          type: string
+        Type:
+          type: string
+      example:
+        Type: Type
+        Platform: Platform
+        Token: Token
+        ID: ID
+        Name: Name
+    settings.Settings:
+      required:
+      - AppWebhook
+      - ClientId
+      - ClientSecret
+      - Email
+      - Env
+      - Expire
+      - ExpireAt
+      - ID
+      - Notification
+      - OwnerId
+      - ProviderCallback
+      - ProviderId
+      - ProviderPlatform
+      - Type
+      type: object
+      properties:
+        AppWebhook:
+          type: string
+        ClientId:
+          type: string
+        ClientSecret:
+          type: string
+        Email:
+          type: string
+        Env:
+          type: string
+        Expire:
+          type: boolean
+        ExpireAt:
+          type: string
+          format: date-time
+        ID:
+          type: string
+        Notification:
+          type: string
+          format: date-time
+        OwnerId:
+          type: string
+        ProviderCallback:
+          type: string
+        ProviderId:
+          type: string
+        ProviderPlatform:
+          type: string
+        Type:
+          type: string
+      example:
+        ProviderCallback: ProviderCallback
+        ProviderId: ProviderId
+        Email: Email
+        ExpireAt: 2000-01-23T04:56:07.000+00:00
+        Env: Env
+        Notification: 2000-01-23T04:56:07.000+00:00
+        AppWebhook: AppWebhook
+        Expire: true
+        Type: Type
+        ProviderPlatform: ProviderPlatform
+        OwnerId: OwnerId
+        ClientSecret: ClientSecret
+        ClientId: ClientId
+        ID: ID
+    shared.AccountProfile:
+      required:
+      - balance
+      - barred
+      - firstName
+      - frozenBalance
+      - grade
+      - lastName
+      - msisdn
+      - suspended
+      - type
+      - userId
+      type: object
+      properties:
+        balance:
+          $ref: '#/components/schemas/.balance'
+        barred:
+          type: string
+        firstName:
+          type: string
+        frozenBalance:
+          $ref: '#/components/schemas/.frozenBalance'
+        grade:
+          type: string
+        lastName:
+          type: string
+        msisdn:
+          type: string
+        suspended:
+          type: string
+        type:
+          type: string
+        userId:
+          type: string
+      example:
+        firstName: firstName
+        lastName: lastName
+        balance:
+          unit: unit
+          value: 0.8008281904610115
+        frozenBalance:
+          unit: unit
+          value: 6.027456183070403
+        grade: grade
+        barred: barred
+        msisdn: msisdn
+        type: type
+        userId: userId
+        suspended: suspended
+    shared.Balance:
+      required:
+      - unit
+      - value
+      type: object
+      properties:
+        unit:
+          type: string
+        value:
+          type: number
+          format: double
+    shared.Identifier:
+      required:
+      - encryptedPinCode
+      - id
+      - idType
+      - pinCode
+      - wallet
+      type: object
+      properties:
+        encryptedPinCode:
+          type: string
+        id:
+          type: string
+        idType:
+          type: string
+        pinCode:
+          type: string
+        wallet:
+          type: string
+    shared.PublicKey:
+      required:
+      - key
+      - keyId
+      - keySize
+      - keyType
+      type: object
+      properties:
+        key:
+          type: string
+        keyId:
+          type: string
+        keySize:
+          type: integer
+          format: int32
+        keyType:
+          type: string
+      example:
+        keySize: 0
+        keyId: keyId
+        keyType: keyType
+        key: key
+    shared.TestNumber:
+      required:
+      - expiresAt
+      - grade
+      - merchantCode
+      - msisdn
+      - pinCode
+      - type
+      type: object
+      properties:
+        expiresAt:
+          type: string
+          format: date-time
+        grade:
+          $ref: '#/components/schemas/shared.TestNumber.grade'
+        merchantCode:
+          type: string
+        msisdn:
+          type: string
+        pinCode:
+          type: string
+        type:
+          type: string
+      example:
+        merchantCode: merchantCode
+        grade: {}
+        pinCode: pinCode
+        msisdn: msisdn
+        type: type
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+    shared.TestNumber.grade:
+      type: object
+    shared.TransactionStatus:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+      example:
+        status: status
+  securitySchemes:
+    jwt:
+      type: apiKey
+      name: Authorization
+      in: header
+x-original-swagger-version: "2.0"
