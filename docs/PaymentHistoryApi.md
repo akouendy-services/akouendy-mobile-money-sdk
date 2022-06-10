@@ -4,25 +4,22 @@ All URIs are relative to */*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateSettings**](SettingsApi.md#CreateSettings) | **Post** /v1/settings/{providerId}/create | create a Settings
-[**FindAllSettingss**](SettingsApi.md#FindAllSettingss) | **Get** /v1/settings/all | get all settings
-[**FindSettings**](SettingsApi.md#FindSettings) | **Get** /v1/settings/{id} | get a Settings
-[**GetPublicKey**](SettingsApi.md#GetPublicKey) | **Get** /v1/settings/public-key | Get account public key
-[**GetTestNumber**](SettingsApi.md#GetTestNumber) | **Get** /v1/settings/test-numbers | Get Test numbers
-[**RemoveSettings**](SettingsApi.md#RemoveSettings) | **Delete** /v1/settings/{id} | delete a Settings
-[**UpdateSettings**](SettingsApi.md#UpdateSettings) | **Put** /v1/settings/update | update a Settings
+[**CreatePaymentHistory**](PaymentHistoryApi.md#CreatePaymentHistory) | **Post** /v1/paymenthistory/create | create a PaymentHistory
+[**FindAllPaymentHistorys**](PaymentHistoryApi.md#FindAllPaymentHistorys) | **Get** /v1/paymenthistory/all | get all paymenthistorys
+[**FindPaymentHistory**](PaymentHistoryApi.md#FindPaymentHistory) | **Get** /v1/paymenthistory/{id} | get a PaymentHistory
+[**RemovePaymentHistory**](PaymentHistoryApi.md#RemovePaymentHistory) | **Delete** /v1/paymenthistory/{id} | delete a PaymentHistory
+[**UpdatePaymentHistory**](PaymentHistoryApi.md#UpdatePaymentHistory) | **Put** /v1/paymenthistory/update | update a PaymentHistory
 
-# **CreateSettings**
-> CreateSettings(ctx, body, providerId)
-create a Settings
+# **CreatePaymentHistory**
+> CreatePaymentHistory(ctx, body)
+create a PaymentHistory
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **body** | [**SettingsSettings**](SettingsSettings.md)|  | 
-  **providerId** | **string**| Provider id | 
+  **body** | [**PaymentPaymentHistory**](PaymentPaymentHistory.md)|  | 
 
 ### Return type
 
@@ -39,19 +36,19 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FindAllSettingss**
-> []SettingsSettings FindAllSettingss(ctx, optional)
-get all settings
+# **FindAllPaymentHistorys**
+> []PaymentPaymentHistory FindAllPaymentHistorys(ctx, optional)
+get all paymenthistorys
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SettingsApiFindAllSettingssOpts** | optional parameters | nil if no parameters
+ **optional** | ***PaymentHistoryApiFindAllPaymentHistorysOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a pointer to a SettingsApiFindAllSettingssOpts struct
+Optional parameters are passed through a pointer to a PaymentHistoryApiFindAllPaymentHistorysOpts struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **optional.String**| Filter. e.g. col1:v1,col2:v2 | 
@@ -61,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]SettingsSettings**](settings.Settings.md)
+[**[]PaymentPaymentHistory**](payment.PaymentHistory.md)
 
 ### Authorization
 
@@ -74,20 +71,20 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FindSettings**
-> SettingsSettings FindSettings(ctx, id)
-get a Settings
+# **FindPaymentHistory**
+> PaymentPaymentHistory FindPaymentHistory(ctx, id)
+get a PaymentHistory
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **id** | **string**| identifier of the Settings | 
+  **id** | **string**| identifier of the PaymentHistory | 
 
 ### Return type
 
-[**SettingsSettings**](settings.Settings.md)
+[**PaymentPaymentHistory**](payment.PaymentHistory.md)
 
 ### Authorization
 
@@ -100,70 +97,16 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **GetPublicKey**
-> SharedPublicKey GetPublicKey(ctx, optional)
-Get account public key
+# **RemovePaymentHistory**
+> RemovePaymentHistory(ctx, id)
+delete a PaymentHistory
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SettingsApiGetPublicKeyOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-Optional parameters are passed through a pointer to a SettingsApiGetPublicKeyOpts struct
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **env** | **optional.String**| api environment (sandbox,prod) | [default to sandbox]
-
-### Return type
-
-[**SharedPublicKey**](shared.PublicKey.md)
-
-### Authorization
-
-[jwt](../README.md#jwt)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **GetTestNumber**
-> []SharedTestNumber GetTestNumber(ctx, )
-Get Test numbers
-
-### Required Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**[]SharedTestNumber**](shared.TestNumber.md)
-
-### Authorization
-
-[jwt](../README.md#jwt)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **RemoveSettings**
-> RemoveSettings(ctx, id)
-delete a Settings
-
-### Required Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **id** | **string**| identifier of the Settings | 
+  **id** | **string**| identifier of the PaymentHistory | 
 
 ### Return type
 
@@ -180,16 +123,16 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **UpdateSettings**
-> UpdateSettings(ctx, body)
-update a Settings
+# **UpdatePaymentHistory**
+> UpdatePaymentHistory(ctx, body)
+update a PaymentHistory
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **body** | [**SettingsSettings**](SettingsSettings.md)|  | 
+  **body** | [**PaymentPaymentHistory**](PaymentPaymentHistory.md)|  | 
 
 ### Return type
 

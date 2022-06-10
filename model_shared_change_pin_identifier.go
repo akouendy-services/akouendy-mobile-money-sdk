@@ -9,10 +9,11 @@
  */
 package swagger
 
-type SharedIdentifier struct {
+type SharedChangePinIdentifier struct {
+	Msisdn string `json:"Msisdn"`
+	EncryptedNewPinCode string `json:"encryptedNewPinCode"`
 	EncryptedPinCode string `json:"encryptedPinCode"`
-	Id string `json:"id"`
 	IdType string `json:"idType"`
+	NewPinCode string `json:"newPinCode"`
 	PinCode string `json:"pinCode"`
-	Wallet string `json:"wallet"`
 }

@@ -3,9 +3,9 @@ info:
   title: Documentation
   description: Resource for api
   contact:
-    name: Andictl
-    url: https://andiwork.github.io
-    email: andictl@andi.dev
+    name: Akouyendy Mobile Money Api
+    url: https://www.akouendy.com
+    email: contact@akouendy.com
   license:
     name: Apache License Version 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.txt
@@ -13,12 +13,54 @@ info:
 servers:
 - url: /
 paths:
+  /v1/account/change/pincode:
+    patch:
+      tags:
+      - Account
+      summary: Change Pin Code
+      operationId: changePinCode
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shared.ChangePinIdentifier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/shared.ChangePinIdentifier'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
   /v1/account/retailer/balance:
     post:
       tags:
       - Account
       summary: Get retailer balance
       operationId: getRetailerBalance
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
       requestBody:
         content:
           application/json:
@@ -42,6 +84,15 @@ paths:
       summary: get a Settings
       operationId: getAccount
       parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
       - name: msisdn
         in: path
         description: account msisdn
@@ -80,6 +131,15 @@ paths:
       summary: get a Settings
       operationId: getTransactionStatus
       parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
       - name: transactionId
         in: path
         description: transaction Id
@@ -253,12 +313,202 @@ paths:
           content: {}
       security:
       - jwt: []
-  /v1/merchant/all:
-    get:
+  /v1/merchant/init-payment:
+    post:
       tags:
       - Merchant
-      summary: get all merchants
-      operationId: findAllMerchants
+      summary: Init payment request
+      operationId: initPayment
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/merchant.InitPaymentRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/merchant.InitPaymentRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/init-payment-qrcode:
+    post:
+      tags:
+      - Merchant
+      summary: Init payment with qrcode
+      operationId: initPaymentQrcode
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/merchant.InitPaymentQrcode'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/merchant.InitPaymentQrcode'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/merchant.PaymentQrcode'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/merchant.PaymentQrcode'
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/payment/gen-otp:
+    post:
+      tags:
+      - Merchant
+      summary: Generate Otp
+      operationId: generateOtp
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
+      - name: transactionId
+        in: path
+        description: payment id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/payment/one-step:
+    post:
+      tags:
+      - Merchant
+      summary: Generate Otp
+      operationId: oneStepPayment
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
+      - name: transactionId
+        in: path
+        description: payment id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/merchant.OneStepPayment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/merchant.OneStepPayment'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/merchant/payment/{transactionId}/confirm:
+    post:
+      tags:
+      - Merchant
+      summary: Init payment request
+      operationId: confirmPayment
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
+      - name: transactionId
+        in: path
+        description: payment id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/shared.Identifier'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/order/all:
+    get:
+      tags:
+      - Order
+      summary: get all orders
+      operationId: findAllOrders
       parameters:
       - name: query
         in: query
@@ -300,29 +550,29 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/merchant.Merchant'
+                  $ref: '#/components/schemas/payment.Order'
                 x-content-type: application/json
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/merchant.Merchant'
+                  $ref: '#/components/schemas/payment.Order'
       security:
       - jwt: []
-  /v1/merchant/create:
+  /v1/order/create:
     post:
       tags:
-      - Merchant
-      summary: create a Merchant
-      operationId: createMerchant
+      - Order
+      summary: create a Order
+      operationId: createOrder
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/merchant.Merchant'
+              $ref: '#/components/schemas/payment.Order'
           application/xml:
             schema:
-              $ref: '#/components/schemas/merchant.Merchant'
+              $ref: '#/components/schemas/payment.Order'
         required: true
       responses:
         "200":
@@ -331,135 +581,20 @@ paths:
       security:
       - jwt: []
       x-codegen-request-body-name: body
-  /v1/merchant/init-payment:
-    post:
-      tags:
-      - Merchant
-      summary: Init payment request
-      operationId: initPayment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/merchant.InitPaymentRequest'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/merchant.InitPaymentRequest'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content: {}
-      security:
-      - jwt: []
-      x-codegen-request-body-name: body
-  /v1/merchant/payment/gen-otp:
-    post:
-      tags:
-      - Merchant
-      summary: Generate Otp
-      operationId: generateOtp
-      parameters:
-      - name: transactionId
-        in: path
-        description: payment id
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/shared.Identifier'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/shared.Identifier'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content: {}
-      security:
-      - jwt: []
-      x-codegen-request-body-name: body
-  /v1/merchant/payment/one-step:
-    post:
-      tags:
-      - Merchant
-      summary: Generate Otp
-      operationId: oneStepPayment
-      parameters:
-      - name: transactionId
-        in: path
-        description: payment id
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/merchant.OneStepPayment'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/merchant.OneStepPayment'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content: {}
-      security:
-      - jwt: []
-      x-codegen-request-body-name: body
-  /v1/merchant/payment/{transactionId}/confirm:
-    post:
-      tags:
-      - Merchant
-      summary: Init payment request
-      operationId: confirmPayment
-      parameters:
-      - name: transactionId
-        in: path
-        description: payment id
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/shared.Identifier'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/shared.Identifier'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content: {}
-      security:
-      - jwt: []
-      x-codegen-request-body-name: body
-  /v1/merchant/update:
+  /v1/order/update:
     put:
       tags:
-      - Merchant
-      summary: update a Merchant
-      operationId: updateMerchant
+      - Order
+      summary: update a Order
+      operationId: updateOrder
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/merchant.Merchant'
+              $ref: '#/components/schemas/payment.Order'
           application/xml:
             schema:
-              $ref: '#/components/schemas/merchant.Merchant'
+              $ref: '#/components/schemas/payment.Order'
         required: true
       responses:
         "200":
@@ -468,16 +603,16 @@ paths:
       security:
       - jwt: []
       x-codegen-request-body-name: body
-  /v1/merchant/{id}:
+  /v1/order/{id}:
     get:
       tags:
-      - Merchant
-      summary: get a Merchant
-      operationId: findMerchant
+      - Order
+      summary: get a Order
+      operationId: findOrder
       parameters:
       - name: id
         in: path
-        description: identifier of the Merchant
+        description: identifier of the Order
         required: true
         style: simple
         explode: false
@@ -489,10 +624,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/merchant.Merchant'
+                $ref: '#/components/schemas/payment.Order'
             application/xml:
               schema:
-                $ref: '#/components/schemas/merchant.Merchant'
+                $ref: '#/components/schemas/payment.Order'
         "404":
           description: Not Found
           content: {}
@@ -500,13 +635,313 @@ paths:
       - jwt: []
     delete:
       tags:
-      - Merchant
-      summary: delete a Merchant
-      operationId: removeMerchant
+      - Order
+      summary: delete a Order
+      operationId: removeOrder
       parameters:
       - name: id
         in: path
-        description: identifier of the Merchant
+        description: identifier of the Order
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+  /v1/payment/all:
+    get:
+      tags:
+      - Payment
+      summary: get all payments
+      operationId: findAllPayments
+      parameters:
+      - name: query
+        in: query
+        description: "Filter. e.g. col1:v1,col2:v2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: "Order. e.g. col1 desc,col2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Start position of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limit the size of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/payment.Payment'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/payment.Payment'
+      security:
+      - jwt: []
+  /v1/payment/create:
+    post:
+      tags:
+      - Payment
+      summary: create a Payment
+      operationId: createPayment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/payment.Payment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/payment.Payment'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/payment/update:
+    put:
+      tags:
+      - Payment
+      summary: update a Payment
+      operationId: updatePayment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/payment.Payment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/payment.Payment'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/payment/{id}:
+    get:
+      tags:
+      - Payment
+      summary: get a Payment
+      operationId: findPayment
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Payment
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payment.Payment'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/payment.Payment'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+    delete:
+      tags:
+      - Payment
+      summary: delete a Payment
+      operationId: removePayment
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the Payment
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+  /v1/paymenthistory/all:
+    get:
+      tags:
+      - PaymentHistory
+      summary: get all paymenthistorys
+      operationId: findAllPaymentHistorys
+      parameters:
+      - name: query
+        in: query
+        description: "Filter. e.g. col1:v1,col2:v2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: order
+        in: query
+        description: "Order. e.g. col1 desc,col2"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Start position of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Limit the size of result set. Must be an integer
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/payment.PaymentHistory'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/payment.PaymentHistory'
+      security:
+      - jwt: []
+  /v1/paymenthistory/create:
+    post:
+      tags:
+      - PaymentHistory
+      summary: create a PaymentHistory
+      operationId: createPaymentHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/payment.PaymentHistory'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/payment.PaymentHistory'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/paymenthistory/update:
+    put:
+      tags:
+      - PaymentHistory
+      summary: update a PaymentHistory
+      operationId: updatePaymentHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/payment.PaymentHistory'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/payment.PaymentHistory'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
+  /v1/paymenthistory/{id}:
+    get:
+      tags:
+      - PaymentHistory
+      summary: get a PaymentHistory
+      operationId: findPaymentHistory
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the PaymentHistory
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payment.PaymentHistory'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/payment.PaymentHistory'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
+    delete:
+      tags:
+      - PaymentHistory
+      summary: delete a PaymentHistory
+      operationId: removePaymentHistory
+      parameters:
+      - name: id
+        in: path
+        description: identifier of the PaymentHistory
         required: true
         style: simple
         explode: false
@@ -730,6 +1165,16 @@ paths:
       - Settings
       summary: Get account public key
       operationId: getPublicKey
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
       responses:
         "200":
           description: OK
@@ -954,6 +1399,20 @@ components:
       properties:
         ID:
           type: string
+    merchant.InitPaymentQrcode:
+      required:
+      - Amount
+      - Desc
+      - Reference
+      type: object
+      properties:
+        Amount:
+          type: integer
+          format: int32
+        Desc:
+          type: string
+        Reference:
+          type: string
     merchant.InitPaymentRequest:
       required:
       - amount
@@ -976,15 +1435,6 @@ components:
           type: boolean
         reference:
           type: string
-    merchant.Merchant:
-      required:
-      - ID
-      type: object
-      properties:
-        ID:
-          type: string
-      example:
-        ID: ID
     merchant.OneStepPayment:
       required:
       - amount
@@ -1001,6 +1451,139 @@ components:
           $ref: '#/components/schemas/.partner'
         reference:
           type: string
+    merchant.PaymentQrcode:
+      required:
+      - qrCode
+      type: object
+      properties:
+        qrCode:
+          type: string
+      example:
+        qrCode: qrCode
+    payment.Order:
+      required:
+      - AppId
+      - AppName
+      - Customer
+      - ExpireDate
+      - ExpireNotify
+      - ID
+      - LastPaymentDate
+      - Status
+      - TotalAmount
+      type: object
+      properties:
+        AppId:
+          type: string
+        AppName:
+          type: string
+        Customer:
+          type: string
+        ExpireDate:
+          type: string
+          format: date-time
+        ExpireNotify:
+          type: boolean
+        ID:
+          type: string
+        LastPaymentDate:
+          type: string
+          format: date-time
+        Status:
+          type: string
+        TotalAmount:
+          type: integer
+          format: int32
+      example:
+        Status: Status
+        AppId: AppId
+        ExpireDate: 2000-01-23T04:56:07.000+00:00
+        Customer: Customer
+        LastPaymentDate: 2000-01-23T04:56:07.000+00:00
+        ExpireNotify: true
+        ID: ID
+        TotalAmount: 0
+        AppName: AppName
+    payment.Payment:
+      required:
+      - BillingProvider
+      - Email
+      - FullName
+      - Histories
+      - ID
+      - MerchantData
+      - OrderRefer
+      - PayUrl
+      - ProviderResponse
+      - Status
+      - TrxID
+      type: object
+      properties:
+        BillingProvider:
+          type: string
+        Email:
+          type: string
+        FullName:
+          type: string
+        Histories:
+          type: array
+          items:
+            $ref: '#/components/schemas/payment.PaymentHistory'
+        ID:
+          type: string
+        MerchantData:
+          type: string
+        OrderRefer:
+          type: string
+        PayUrl:
+          type: string
+        ProviderResponse:
+          type: string
+        Status:
+          type: string
+        TrxID:
+          type: string
+      example:
+        Status: Status
+        TrxID: TrxID
+        MerchantData: MerchantData
+        Email: Email
+        ProviderResponse: ProviderResponse
+        PayUrl: PayUrl
+        FullName: FullName
+        BillingProvider: BillingProvider
+        Histories:
+        - Status: Status
+          PaymentRefer: PaymentRefer
+          ResponseData: ResponseData
+          ID: ID
+        - Status: Status
+          PaymentRefer: PaymentRefer
+          ResponseData: ResponseData
+          ID: ID
+        ID: ID
+        OrderRefer: OrderRefer
+    payment.PaymentHistory:
+      required:
+      - ID
+      - PaymentRefer
+      - ResponseData
+      - Status
+      type: object
+      properties:
+        ID:
+          type: string
+        PaymentRefer:
+          type: string
+        ResponseData:
+          type: string
+        Status:
+          type: string
+      example:
+        Status: Status
+        PaymentRefer: PaymentRefer
+        ResponseData: ResponseData
+        ID: ID
     provider.Provider:
       required:
       - ID
@@ -1041,6 +1624,7 @@ components:
       - ProviderCallback
       - ProviderId
       - ProviderPlatform
+      - ServiceId
       - Type
       type: object
       properties:
@@ -1072,6 +1656,8 @@ components:
           type: string
         ProviderPlatform:
           type: string
+        ServiceId:
+          type: string
         Type:
           type: string
       example:
@@ -1081,6 +1667,7 @@ components:
         ExpireAt: 2000-01-23T04:56:07.000+00:00
         Env: Env
         Notification: 2000-01-23T04:56:07.000+00:00
+        ServiceId: ServiceId
         AppWebhook: AppWebhook
         Expire: true
         Type: Type
@@ -1149,6 +1736,28 @@ components:
         value:
           type: number
           format: double
+    shared.ChangePinIdentifier:
+      required:
+      - Msisdn
+      - encryptedNewPinCode
+      - encryptedPinCode
+      - idType
+      - newPinCode
+      - pinCode
+      type: object
+      properties:
+        Msisdn:
+          type: string
+        encryptedNewPinCode:
+          type: string
+        encryptedPinCode:
+          type: string
+        idType:
+          type: string
+        newPinCode:
+          type: string
+        pinCode:
+          type: string
     shared.Identifier:
       required:
       - encryptedPinCode
@@ -1224,12 +1833,28 @@ components:
       type: object
     shared.TransactionStatus:
       required:
+      - description
+      - reference
+      - requestId
       - status
+      - transactionId
       type: object
       properties:
+        description:
+          type: string
+        reference:
+          type: string
+        requestId:
+          type: string
         status:
           type: string
+        transactionId:
+          type: string
       example:
+        reference: reference
+        requestId: requestId
+        description: description
+        transactionId: transactionId
         status: status
   securitySchemes:
     jwt:

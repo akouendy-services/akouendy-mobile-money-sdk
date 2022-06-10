@@ -4,25 +4,22 @@ All URIs are relative to */*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateSettings**](SettingsApi.md#CreateSettings) | **Post** /v1/settings/{providerId}/create | create a Settings
-[**FindAllSettingss**](SettingsApi.md#FindAllSettingss) | **Get** /v1/settings/all | get all settings
-[**FindSettings**](SettingsApi.md#FindSettings) | **Get** /v1/settings/{id} | get a Settings
-[**GetPublicKey**](SettingsApi.md#GetPublicKey) | **Get** /v1/settings/public-key | Get account public key
-[**GetTestNumber**](SettingsApi.md#GetTestNumber) | **Get** /v1/settings/test-numbers | Get Test numbers
-[**RemoveSettings**](SettingsApi.md#RemoveSettings) | **Delete** /v1/settings/{id} | delete a Settings
-[**UpdateSettings**](SettingsApi.md#UpdateSettings) | **Put** /v1/settings/update | update a Settings
+[**CreatePayment**](PaymentApi.md#CreatePayment) | **Post** /v1/payment/create | create a Payment
+[**FindAllPayments**](PaymentApi.md#FindAllPayments) | **Get** /v1/payment/all | get all payments
+[**FindPayment**](PaymentApi.md#FindPayment) | **Get** /v1/payment/{id} | get a Payment
+[**RemovePayment**](PaymentApi.md#RemovePayment) | **Delete** /v1/payment/{id} | delete a Payment
+[**UpdatePayment**](PaymentApi.md#UpdatePayment) | **Put** /v1/payment/update | update a Payment
 
-# **CreateSettings**
-> CreateSettings(ctx, body, providerId)
-create a Settings
+# **CreatePayment**
+> CreatePayment(ctx, body)
+create a Payment
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **body** | [**SettingsSettings**](SettingsSettings.md)|  | 
-  **providerId** | **string**| Provider id | 
+  **body** | [**PaymentPayment**](PaymentPayment.md)|  | 
 
 ### Return type
 
@@ -39,19 +36,19 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FindAllSettingss**
-> []SettingsSettings FindAllSettingss(ctx, optional)
-get all settings
+# **FindAllPayments**
+> []PaymentPayment FindAllPayments(ctx, optional)
+get all payments
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SettingsApiFindAllSettingssOpts** | optional parameters | nil if no parameters
+ **optional** | ***PaymentApiFindAllPaymentsOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a pointer to a SettingsApiFindAllSettingssOpts struct
+Optional parameters are passed through a pointer to a PaymentApiFindAllPaymentsOpts struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **optional.String**| Filter. e.g. col1:v1,col2:v2 | 
@@ -61,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]SettingsSettings**](settings.Settings.md)
+[**[]PaymentPayment**](payment.Payment.md)
 
 ### Authorization
 
@@ -74,20 +71,20 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FindSettings**
-> SettingsSettings FindSettings(ctx, id)
-get a Settings
+# **FindPayment**
+> PaymentPayment FindPayment(ctx, id)
+get a Payment
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **id** | **string**| identifier of the Settings | 
+  **id** | **string**| identifier of the Payment | 
 
 ### Return type
 
-[**SettingsSettings**](settings.Settings.md)
+[**PaymentPayment**](payment.Payment.md)
 
 ### Authorization
 
@@ -100,70 +97,16 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **GetPublicKey**
-> SharedPublicKey GetPublicKey(ctx, optional)
-Get account public key
+# **RemovePayment**
+> RemovePayment(ctx, id)
+delete a Payment
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SettingsApiGetPublicKeyOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-Optional parameters are passed through a pointer to a SettingsApiGetPublicKeyOpts struct
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **env** | **optional.String**| api environment (sandbox,prod) | [default to sandbox]
-
-### Return type
-
-[**SharedPublicKey**](shared.PublicKey.md)
-
-### Authorization
-
-[jwt](../README.md#jwt)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **GetTestNumber**
-> []SharedTestNumber GetTestNumber(ctx, )
-Get Test numbers
-
-### Required Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**[]SharedTestNumber**](shared.TestNumber.md)
-
-### Authorization
-
-[jwt](../README.md#jwt)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **RemoveSettings**
-> RemoveSettings(ctx, id)
-delete a Settings
-
-### Required Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **id** | **string**| identifier of the Settings | 
+  **id** | **string**| identifier of the Payment | 
 
 ### Return type
 
@@ -180,16 +123,16 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **UpdateSettings**
-> UpdateSettings(ctx, body)
-update a Settings
+# **UpdatePayment**
+> UpdatePayment(ctx, body)
+update a Payment
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **body** | [**SettingsSettings**](SettingsSettings.md)|  | 
+  **body** | [**PaymentPayment**](PaymentPayment.md)|  | 
 
 ### Return type
 

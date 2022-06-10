@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **ProviderCallback** | **string** |  | [default to null]
 **ProviderId** | **string** |  | [default to null]
 **ProviderPlatform** | **string** |  | [default to null]
+**ServiceId** | **string** |  | [default to null]
 **Type_** | **string** |  | [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

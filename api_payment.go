@@ -25,22 +25,14 @@ var (
 	_ context.Context
 )
 
-type MerchantApiService service
+type PaymentApiService service
 /*
-MerchantApiService Init payment request
+PaymentApiService create a Payment
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body
- * @param transactionId payment id
- * @param optional nil or *MerchantApiConfirmPaymentOpts - Optional Parameters:
-     * @param "Env" (optional.String) -  api environment (sandbox,prod)
 
 */
-
-type MerchantApiConfirmPaymentOpts struct {
-    Env optional.String
-}
-
-func (a *MerchantApiService) ConfirmPayment(ctx context.Context, body SharedIdentifier, transactionId string, localVarOptionals *MerchantApiConfirmPaymentOpts) (*http.Response, error) {
+func (a *PaymentApiService) CreatePayment(ctx context.Context, body PaymentPayment) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -50,8 +42,7 @@ func (a *MerchantApiService) ConfirmPayment(ctx context.Context, body SharedIden
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/merchant/payment/{transactionId}/confirm"
-	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", fmt.Sprintf("%v", transactionId), -1)
+	localVarPath := a.client.cfg.BasePath + "/v1/payment/create"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -73,9 +64,6 @@ func (a *MerchantApiService) ConfirmPayment(ctx context.Context, body SharedIden
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-	if localVarOptionals != nil && localVarOptionals.Env.IsSet() {
-		localVarHeaderParams["env"] = parameterToString(localVarOptionals.Env.Value(), "")
 	}
 	// body params
 	localVarPostBody = &body
@@ -120,220 +108,53 @@ func (a *MerchantApiService) ConfirmPayment(ctx context.Context, body SharedIden
 	return localVarHttpResponse, nil
 }
 /*
-MerchantApiService Generate Otp
+PaymentApiService get all payments
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body
- * @param transactionId payment id
- * @param optional nil or *MerchantApiGenerateOtpOpts - Optional Parameters:
-     * @param "Env" (optional.String) -  api environment (sandbox,prod)
-
+ * @param optional nil or *PaymentApiFindAllPaymentsOpts - Optional Parameters:
+     * @param "Query" (optional.String) -  Filter. e.g. col1:v1,col2:v2
+     * @param "Order" (optional.String) -  Order. e.g. col1 desc,col2
+     * @param "Offset" (optional.String) -  Start position of result set. Must be an integer
+     * @param "Limit" (optional.String) -  Limit the size of result set. Must be an integer
+@return []PaymentPayment
 */
 
-type MerchantApiGenerateOtpOpts struct {
-    Env optional.String
+type PaymentApiFindAllPaymentsOpts struct {
+    Query optional.String
+    Order optional.String
+    Offset optional.String
+    Limit optional.String
 }
 
-func (a *MerchantApiService) GenerateOtp(ctx context.Context, body SharedIdentifier, transactionId string, localVarOptionals *MerchantApiGenerateOtpOpts) (*http.Response, error) {
+func (a *PaymentApiService) FindAllPayments(ctx context.Context, localVarOptionals *PaymentApiFindAllPaymentsOpts) ([]PaymentPayment, *http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Post")
+		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		
+		localVarReturnValue []PaymentPayment
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/merchant/payment/gen-otp"
-	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", fmt.Sprintf("%v", transactionId), -1)
+	localVarPath := a.client.cfg.BasePath + "/v1/payment/all"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if localVarOptionals != nil && localVarOptionals.Query.IsSet() {
+		localVarQueryParams.Add("query", parameterToString(localVarOptionals.Query.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.Order.IsSet() {
+		localVarQueryParams.Add("order", parameterToString(localVarOptionals.Order.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.Offset.IsSet() {
+		localVarQueryParams.Add("offset", parameterToString(localVarOptionals.Offset.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.Limit.IsSet() {
+		localVarQueryParams.Add("limit", parameterToString(localVarOptionals.Limit.Value(), ""))
+	}
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/json", "application/xml"}
-
-	// set Content-Type header
-	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
-	if localVarHttpContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHttpContentType
-	}
-
-	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
-	if localVarHttpHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-	if localVarOptionals != nil && localVarOptionals.Env.IsSet() {
-		localVarHeaderParams["env"] = parameterToString(localVarOptionals.Env.Value(), "")
-	}
-	// body params
-	localVarPostBody = &body
-	if ctx != nil {
-		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
-			var key string
-			if auth.Prefix != "" {
-				key = auth.Prefix + " " + auth.Key
-			} else {
-				key = auth.Key
-			}
-			localVarHeaderParams["Authorization"] = key
-			
-		}
-	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHttpResponse, err := a.client.callAPI(r)
-	if err != nil || localVarHttpResponse == nil {
-		return localVarHttpResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
-	localVarHttpResponse.Body.Close()
-	if err != nil {
-		return localVarHttpResponse, err
-	}
-
-
-	if localVarHttpResponse.StatusCode >= 300 {
-		newErr := GenericSwaggerError{
-			body: localVarBody,
-			error: localVarHttpResponse.Status,
-		}
-		return localVarHttpResponse, newErr
-	}
-
-	return localVarHttpResponse, nil
-}
-/*
-MerchantApiService Init payment request
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body
- * @param optional nil or *MerchantApiInitPaymentOpts - Optional Parameters:
-     * @param "Env" (optional.String) -  api environment (sandbox,prod)
-
-*/
-
-type MerchantApiInitPaymentOpts struct {
-    Env optional.String
-}
-
-func (a *MerchantApiService) InitPayment(ctx context.Context, body MerchantInitPaymentRequest, localVarOptionals *MerchantApiInitPaymentOpts) (*http.Response, error) {
-	var (
-		localVarHttpMethod = strings.ToUpper("Post")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
-		
-	)
-
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/merchant/init-payment"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/json", "application/xml"}
-
-	// set Content-Type header
-	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
-	if localVarHttpContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHttpContentType
-	}
-
-	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
-	if localVarHttpHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-	if localVarOptionals != nil && localVarOptionals.Env.IsSet() {
-		localVarHeaderParams["env"] = parameterToString(localVarOptionals.Env.Value(), "")
-	}
-	// body params
-	localVarPostBody = &body
-	if ctx != nil {
-		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
-			var key string
-			if auth.Prefix != "" {
-				key = auth.Prefix + " " + auth.Key
-			} else {
-				key = auth.Key
-			}
-			localVarHeaderParams["Authorization"] = key
-			
-		}
-	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHttpResponse, err := a.client.callAPI(r)
-	if err != nil || localVarHttpResponse == nil {
-		return localVarHttpResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
-	localVarHttpResponse.Body.Close()
-	if err != nil {
-		return localVarHttpResponse, err
-	}
-
-
-	if localVarHttpResponse.StatusCode >= 300 {
-		newErr := GenericSwaggerError{
-			body: localVarBody,
-			error: localVarHttpResponse.Status,
-		}
-		return localVarHttpResponse, newErr
-	}
-
-	return localVarHttpResponse, nil
-}
-/*
-MerchantApiService Init payment with qrcode
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body
- * @param optional nil or *MerchantApiInitPaymentQrcodeOpts - Optional Parameters:
-     * @param "Env" (optional.String) -  api environment (sandbox,prod)
-@return MerchantPaymentQrcode
-*/
-
-type MerchantApiInitPaymentQrcodeOpts struct {
-    Env optional.String
-}
-
-func (a *MerchantApiService) InitPaymentQrcode(ctx context.Context, body MerchantInitPaymentQrcode, localVarOptionals *MerchantApiInitPaymentQrcodeOpts) (MerchantPaymentQrcode, *http.Response, error) {
-	var (
-		localVarHttpMethod = strings.ToUpper("Post")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
-		localVarReturnValue MerchantPaymentQrcode
-	)
-
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/merchant/init-payment-qrcode"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/json", "application/xml"}
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -349,11 +170,6 @@ func (a *MerchantApiService) InitPaymentQrcode(ctx context.Context, body Merchan
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.Env.IsSet() {
-		localVarHeaderParams["env"] = parameterToString(localVarOptionals.Env.Value(), "")
-	}
-	// body params
-	localVarPostBody = &body
 	if ctx != nil {
 		// API Key Authentication
 		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
@@ -397,7 +213,7 @@ func (a *MerchantApiService) InitPaymentQrcode(ctx context.Context, body Merchan
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v MerchantPaymentQrcode
+			var v []PaymentPayment
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
 				if err != nil {
 					newErr.error = err.Error()
@@ -412,22 +228,111 @@ func (a *MerchantApiService) InitPaymentQrcode(ctx context.Context, body Merchan
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 /*
-MerchantApiService Generate Otp
+PaymentApiService get a Payment
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body
- * @param transactionId payment id
- * @param optional nil or *MerchantApiOneStepPaymentOpts - Optional Parameters:
-     * @param "Env" (optional.String) -  api environment (sandbox,prod)
+ * @param id identifier of the Payment
+@return PaymentPayment
+*/
+func (a *PaymentApiService) FindPayment(ctx context.Context, id string) (PaymentPayment, *http.Response, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		localVarReturnValue PaymentPayment
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/v1/payment/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", fmt.Sprintf("%v", id), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{"application/json", "application/xml"}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	if ctx != nil {
+		// API Key Authentication
+		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
+			var key string
+			if auth.Prefix != "" {
+				key = auth.Prefix + " " + auth.Key
+			} else {
+				key = auth.Key
+			}
+			localVarHeaderParams["Authorization"] = key
+			
+		}
+	}
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		if err == nil { 
+			return localVarReturnValue, localVarHttpResponse, err
+		}
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		if localVarHttpResponse.StatusCode == 200 {
+			var v PaymentPayment
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+				if err != nil {
+					newErr.error = err.Error()
+					return localVarReturnValue, localVarHttpResponse, newErr
+				}
+				newErr.model = v
+				return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHttpResponse, nil
+}
+/*
+PaymentApiService delete a Payment
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id identifier of the Payment
 
 */
-
-type MerchantApiOneStepPaymentOpts struct {
-    Env optional.String
-}
-
-func (a *MerchantApiService) OneStepPayment(ctx context.Context, body MerchantOneStepPayment, transactionId string, localVarOptionals *MerchantApiOneStepPaymentOpts) (*http.Response, error) {
+func (a *PaymentApiService) RemovePayment(ctx context.Context, id string) (*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Post")
+		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
@@ -435,8 +340,87 @@ func (a *MerchantApiService) OneStepPayment(ctx context.Context, body MerchantOn
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/merchant/payment/one-step"
-	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", fmt.Sprintf("%v", transactionId), -1)
+	localVarPath := a.client.cfg.BasePath + "/v1/payment/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", fmt.Sprintf("%v", id), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	if ctx != nil {
+		// API Key Authentication
+		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
+			var key string
+			if auth.Prefix != "" {
+				key = auth.Prefix + " " + auth.Key
+			} else {
+				key = auth.Key
+			}
+			localVarHeaderParams["Authorization"] = key
+			
+		}
+	}
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
+	}
+
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericSwaggerError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
+}
+/*
+PaymentApiService update a Payment
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param body
+
+*/
+func (a *PaymentApiService) UpdatePayment(ctx context.Context, body PaymentPayment) (*http.Response, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Put")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/v1/payment/update"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -458,9 +442,6 @@ func (a *MerchantApiService) OneStepPayment(ctx context.Context, body MerchantOn
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-	if localVarOptionals != nil && localVarOptionals.Env.IsSet() {
-		localVarHeaderParams["env"] = parameterToString(localVarOptionals.Env.Value(), "")
 	}
 	// body params
 	localVarPostBody = &body

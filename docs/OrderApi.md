@@ -4,25 +4,22 @@ All URIs are relative to */*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateSettings**](SettingsApi.md#CreateSettings) | **Post** /v1/settings/{providerId}/create | create a Settings
-[**FindAllSettingss**](SettingsApi.md#FindAllSettingss) | **Get** /v1/settings/all | get all settings
-[**FindSettings**](SettingsApi.md#FindSettings) | **Get** /v1/settings/{id} | get a Settings
-[**GetPublicKey**](SettingsApi.md#GetPublicKey) | **Get** /v1/settings/public-key | Get account public key
-[**GetTestNumber**](SettingsApi.md#GetTestNumber) | **Get** /v1/settings/test-numbers | Get Test numbers
-[**RemoveSettings**](SettingsApi.md#RemoveSettings) | **Delete** /v1/settings/{id} | delete a Settings
-[**UpdateSettings**](SettingsApi.md#UpdateSettings) | **Put** /v1/settings/update | update a Settings
+[**CreateOrder**](OrderApi.md#CreateOrder) | **Post** /v1/order/create | create a Order
+[**FindAllOrders**](OrderApi.md#FindAllOrders) | **Get** /v1/order/all | get all orders
+[**FindOrder**](OrderApi.md#FindOrder) | **Get** /v1/order/{id} | get a Order
+[**RemoveOrder**](OrderApi.md#RemoveOrder) | **Delete** /v1/order/{id} | delete a Order
+[**UpdateOrder**](OrderApi.md#UpdateOrder) | **Put** /v1/order/update | update a Order
 
-# **CreateSettings**
-> CreateSettings(ctx, body, providerId)
-create a Settings
+# **CreateOrder**
+> CreateOrder(ctx, body)
+create a Order
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **body** | [**SettingsSettings**](SettingsSettings.md)|  | 
-  **providerId** | **string**| Provider id | 
+  **body** | [**PaymentOrder**](PaymentOrder.md)|  | 
 
 ### Return type
 
@@ -39,19 +36,19 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FindAllSettingss**
-> []SettingsSettings FindAllSettingss(ctx, optional)
-get all settings
+# **FindAllOrders**
+> []PaymentOrder FindAllOrders(ctx, optional)
+get all orders
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SettingsApiFindAllSettingssOpts** | optional parameters | nil if no parameters
+ **optional** | ***OrderApiFindAllOrdersOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
-Optional parameters are passed through a pointer to a SettingsApiFindAllSettingssOpts struct
+Optional parameters are passed through a pointer to a OrderApiFindAllOrdersOpts struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **optional.String**| Filter. e.g. col1:v1,col2:v2 | 
@@ -61,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]SettingsSettings**](settings.Settings.md)
+[**[]PaymentOrder**](payment.Order.md)
 
 ### Authorization
 
@@ -74,20 +71,20 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FindSettings**
-> SettingsSettings FindSettings(ctx, id)
-get a Settings
+# **FindOrder**
+> PaymentOrder FindOrder(ctx, id)
+get a Order
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **id** | **string**| identifier of the Settings | 
+  **id** | **string**| identifier of the Order | 
 
 ### Return type
 
-[**SettingsSettings**](settings.Settings.md)
+[**PaymentOrder**](payment.Order.md)
 
 ### Authorization
 
@@ -100,70 +97,16 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **GetPublicKey**
-> SharedPublicKey GetPublicKey(ctx, optional)
-Get account public key
+# **RemoveOrder**
+> RemoveOrder(ctx, id)
+delete a Order
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SettingsApiGetPublicKeyOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-Optional parameters are passed through a pointer to a SettingsApiGetPublicKeyOpts struct
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **env** | **optional.String**| api environment (sandbox,prod) | [default to sandbox]
-
-### Return type
-
-[**SharedPublicKey**](shared.PublicKey.md)
-
-### Authorization
-
-[jwt](../README.md#jwt)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **GetTestNumber**
-> []SharedTestNumber GetTestNumber(ctx, )
-Get Test numbers
-
-### Required Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**[]SharedTestNumber**](shared.TestNumber.md)
-
-### Authorization
-
-[jwt](../README.md#jwt)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **RemoveSettings**
-> RemoveSettings(ctx, id)
-delete a Settings
-
-### Required Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **id** | **string**| identifier of the Settings | 
+  **id** | **string**| identifier of the Order | 
 
 ### Return type
 
@@ -180,16 +123,16 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **UpdateSettings**
-> UpdateSettings(ctx, body)
-update a Settings
+# **UpdateOrder**
+> UpdateOrder(ctx, body)
+update a Order
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **body** | [**SettingsSettings**](SettingsSettings.md)|  | 
+  **body** | [**PaymentOrder**](PaymentOrder.md)|  | 
 
 ### Return type
 

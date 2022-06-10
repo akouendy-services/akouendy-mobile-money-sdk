@@ -9,7 +9,9 @@
  */
 package swagger
 
-type FrozenBalance struct {
-	Unit string `json:"unit"`
-	Value float64 `json:"value"`
+type PaymentPaymentHistory struct {
+	ID string `json:"ID"`
+	PaymentRefer string `json:"PaymentRefer"`
+	ResponseData string `json:"ResponseData"`
+	Status string `json:"Status"`
 }
