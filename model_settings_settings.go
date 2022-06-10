@@ -21,6 +21,8 @@ type SettingsSettings struct {
 	Expire bool `json:"Expire"`
 	ExpireAt time.Time `json:"ExpireAt"`
 	ID string `json:"ID"`
+	MerchantCode string `json:"MerchantCode"`
+	MerchantMsisdn string `json:"MerchantMsisdn"`
 	Notification time.Time `json:"Notification"`
 	OwnerId string `json:"OwnerId"`
 	ProviderCallback string `json:"ProviderCallback"`

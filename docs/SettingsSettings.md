@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **Expire** | **bool** |  | [default to null]
 **ExpireAt** | [**time.Time**](time.Time.md) |  | [default to null]
 **ID** | **string** |  | [default to null]
+**MerchantCode** | **string** |  | [default to null]
+**MerchantMsisdn** | **string** |  | [default to null]
 **Notification** | [**time.Time**](time.Time.md) |  | [default to null]
 **OwnerId** | **string** |  | [default to null]
 **ProviderCallback** | **string** |  | [default to null]

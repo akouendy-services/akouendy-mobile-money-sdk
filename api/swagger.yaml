@@ -1619,6 +1619,8 @@ components:
       - Expire
       - ExpireAt
       - ID
+      - MerchantCode
+      - MerchantMsisdn
       - Notification
       - OwnerId
       - ProviderCallback
@@ -1644,6 +1646,10 @@ components:
           type: string
           format: date-time
         ID:
+          type: string
+        MerchantCode:
+          type: string
+        MerchantMsisdn:
           type: string
         Notification:
           type: string
@@ -1673,7 +1679,9 @@ components:
         Type: Type
         ProviderPlatform: ProviderPlatform
         OwnerId: OwnerId
+        MerchantMsisdn: MerchantMsisdn
         ClientSecret: ClientSecret
+        MerchantCode: MerchantCode
         ClientId: ClientId
         ID: ID
     shared.AccountProfile:
