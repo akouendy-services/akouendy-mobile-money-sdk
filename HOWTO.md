@@ -28,7 +28,42 @@ func main() {
 
 }
 ```
+## Using singleton to share api client instance
+*Create singleton in util package*
+```
+package utils
 
+import (
+	"sync"
+
+	mobilemoney "github.com/akouendy-services/akouendy-mobile-money-sdk"
+	"github.com/spf13/viper"
+)
+
+var mobileMoneyClient *mobilemoney.APIClient
+var onceMoba sync.Once
+
+func GetMobileMoneyClientInstance() *mobilemoney.APIClient {
+	onceMoba.Do(func() {
+		mobileMoneyClient = mobilemoney.NewAPIClient(&mobilemoney.Configuration{BasePath: viper.GetString("payment-url")})
+	})
+	return mobileMoneyClient
+}
+```
+*Using the singleton*
+```
+	client := utils.GetMobileMoneyClientInstance()
+	data, resp, err := client.ProviderApi.FindAllProviders(context.TODO(), &mobilemoney.ProviderApiFindAllProvidersOpts{})
+	if err != nil {
+		fmt.Println("===== err ==== ", err)
+		fmt.Println("===== resp ==== ", resp.StatusCode)
+	} else {
+		fmt.Println("===== data ==== ", data)
+		fmt.Println("===== resp ==== ", resp)
+		fmt.Println("===== resp ==== ", resp.StatusCode)
+
+	}
+```
 
 Resource for api
 
