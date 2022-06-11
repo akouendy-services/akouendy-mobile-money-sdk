@@ -11,6 +11,7 @@ package swagger
 
 type MerchantInitPaymentQrcode struct {
 	Amount int32 `json:"Amount"`
+	Code string `json:"Code"`
 	Desc string `json:"Desc"`
 	Reference string `json:"Reference"`
 }

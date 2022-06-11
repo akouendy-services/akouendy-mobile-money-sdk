@@ -21,5 +21,5 @@ type PaymentOrder struct {
 	ID string `json:"ID"`
 	LastPaymentDate time.Time `json:"LastPaymentDate"`
 	Status string `json:"Status"`
-	TotalAmount int32 `json:"TotalAmount"`
+	TotalAmount string `json:"TotalAmount"`
 }
