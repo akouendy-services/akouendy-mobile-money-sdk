@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**UpdateOrder**](OrderApi.md#UpdateOrder) | **Put** /v1/order/update | update a Order
 
 # **CreateOrder**
-> CreateOrder(ctx, body)
+> PaymentOrder CreateOrder(ctx, body)
 create a Order
 
 ### Required Parameters
@@ -23,7 +23,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**PaymentOrder**](payment.Order.md)
 
 ### Authorization
 
@@ -32,7 +32,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

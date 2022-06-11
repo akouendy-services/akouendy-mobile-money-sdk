@@ -577,7 +577,13 @@ paths:
       responses:
         "200":
           description: OK
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payment.Order'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/payment.Order'
       security:
       - jwt: []
       x-codegen-request-body-name: body
