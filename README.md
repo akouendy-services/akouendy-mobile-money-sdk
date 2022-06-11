@@ -77,6 +77,7 @@ Class | Method | HTTP request | Description
  - [MerchantOneStepPayment](docs/MerchantOneStepPayment.md)
  - [MerchantPaymentQrcode](docs/MerchantPaymentQrcode.md)
  - [Partner](docs/Partner.md)
+ - [PaymentCreateOrder](docs/PaymentCreateOrder.md)
  - [PaymentOrder](docs/PaymentOrder.md)
  - [PaymentPayment](docs/PaymentPayment.md)
  - [PaymentPaymentHistory](docs/PaymentPaymentHistory.md)

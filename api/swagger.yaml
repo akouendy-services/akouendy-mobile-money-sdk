@@ -569,10 +569,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/payment.Order'
+              $ref: '#/components/schemas/payment.CreateOrder'
           application/xml:
             schema:
-              $ref: '#/components/schemas/payment.Order'
+              $ref: '#/components/schemas/payment.CreateOrder'
         required: true
       responses:
         "200":
@@ -1414,7 +1414,8 @@ components:
       type: object
       properties:
         Amount:
-          type: string
+          type: integer
+          format: int64
         Code:
           type: string
         Desc:
@@ -1468,6 +1469,24 @@ components:
           type: string
       example:
         qrCode: qrCode
+    payment.CreateOrder:
+      required:
+      - AppId
+      - AppName
+      - ExpireDate
+      - TotalAmount
+      type: object
+      properties:
+        AppId:
+          type: string
+        AppName:
+          type: string
+        ExpireDate:
+          type: string
+          format: date-time
+        TotalAmount:
+          type: integer
+          format: int64
     payment.Order:
       required:
       - AppId
@@ -1500,7 +1519,8 @@ components:
         Status:
           type: string
         TotalAmount:
-          type: string
+          type: integer
+          format: int64
       example:
         Status: Status
         AppId: AppId
@@ -1509,7 +1529,7 @@ components:
         LastPaymentDate: 2000-01-23T04:56:07.000+00:00
         ExpireNotify: true
         ID: ID
-        TotalAmount: TotalAmount
+        TotalAmount: 0
         AppName: AppName
     payment.Payment:
       required:

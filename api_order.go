@@ -32,7 +32,7 @@ OrderApiService create a Order
  * @param body
 @return PaymentOrder
 */
-func (a *OrderApiService) CreateOrder(ctx context.Context, body PaymentOrder) (PaymentOrder, *http.Response, error) {
+func (a *OrderApiService) CreateOrder(ctx context.Context, body PaymentCreateOrder) (PaymentOrder, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}

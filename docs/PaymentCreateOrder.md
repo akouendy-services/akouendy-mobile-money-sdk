@@ -1,12 +1,12 @@
-# MerchantInitPaymentQrcode
+# PaymentCreateOrder
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Amount** | **int64** |  | [default to null]
-**Code** | **string** |  | [default to null]
-**Desc** | **string** |  | [default to null]
-**Reference** | **string** |  | [default to null]
+**AppId** | **string** |  | [default to null]
+**AppName** | **string** |  | [default to null]
+**ExpireDate** | [**time.Time**](time.Time.md) |  | [default to null]
+**TotalAmount** | **int64** |  | [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

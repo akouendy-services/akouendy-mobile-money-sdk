@@ -19,7 +19,7 @@ create a Order
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **body** | [**PaymentOrder**](PaymentOrder.md)|  | 
+  **body** | [**PaymentCreateOrder**](PaymentCreateOrder.md)|  | 
 
 ### Return type
 
