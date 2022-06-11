@@ -1414,8 +1414,7 @@ components:
       type: object
       properties:
         Amount:
-          type: integer
-          format: int32
+          type: string
         Code:
           type: string
         Desc:

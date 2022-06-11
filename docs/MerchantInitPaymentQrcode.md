@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Amount** | **int32** |  | [default to null]
+**Amount** | **string** |  | [default to null]
 **Code** | **string** |  | [default to null]
 **Desc** | **string** |  | [default to null]
 **Reference** | **string** |  | [default to null]
