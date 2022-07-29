@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**GetAccount**](AccountApi.md#GetAccount) | **Get** /v1/account/{msisdn}/{type} | get a Settings
 [**GetRetailerBalance**](AccountApi.md#GetRetailerBalance) | **Post** /v1/account/retailer/balance | Get retailer balance
 [**GetTransactionStatus**](AccountApi.md#GetTransactionStatus) | **Get** /v1/account/{transactionId}/status | get a Settings
+[**GetTransactions**](AccountApi.md#GetTransactions) | **Get** /v1/account/transactions | get a transactions
 
 # **ChangePinCode**
 > ChangePinCode(ctx, body, optional)
@@ -135,6 +136,41 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SharedTransactionStatus**](shared.TransactionStatus.md)
+
+### Authorization
+
+[jwt](../README.md#jwt)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **GetTransactions**
+> []SharedTransaction GetTransactions(ctx, optional)
+get a transactions
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+ **optional** | ***AccountApiGetTransactionsOpts** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a pointer to a AccountApiGetTransactionsOpts struct
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **env** | **optional.String**| api environment (sandbox,prod) | [default to sandbox]
+ **status** | **optional.String**| Transactions status. e.g. SUCCESS, FAILED | 
+ **fromDateTime** | **optional.String**| Sart date | 
+ **toDateTime** | **optional.String**| End date | 
+
+### Return type
+
+[**[]SharedTransaction**](shared.Transaction.md)
 
 ### Authorization
 

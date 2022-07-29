@@ -123,7 +123,6 @@ func (a *MerchantApiService) ConfirmPayment(ctx context.Context, body SharedIden
 MerchantApiService Generate Otp
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body
- * @param transactionId payment id
  * @param optional nil or *MerchantApiGenerateOtpOpts - Optional Parameters:
      * @param "Env" (optional.String) -  api environment (sandbox,prod)
 
@@ -133,7 +132,7 @@ type MerchantApiGenerateOtpOpts struct {
     Env optional.String
 }
 
-func (a *MerchantApiService) GenerateOtp(ctx context.Context, body SharedIdentifier, transactionId string, localVarOptionals *MerchantApiGenerateOtpOpts) (*http.Response, error) {
+func (a *MerchantApiService) GenerateOtp(ctx context.Context, body SharedIdentifier, localVarOptionals *MerchantApiGenerateOtpOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -144,7 +143,6 @@ func (a *MerchantApiService) GenerateOtp(ctx context.Context, body SharedIdentif
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/v1/merchant/payment/gen-otp"
-	localVarPath = strings.Replace(localVarPath, "{"+"transactionId"+"}", fmt.Sprintf("%v", transactionId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

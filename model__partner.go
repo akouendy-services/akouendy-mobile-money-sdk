@@ -12,4 +12,5 @@ package swagger
 type Partner struct {
 	Id string `json:"id"`
 	IdType string `json:"idType"`
+	WalletType string `json:"walletType"`
 }

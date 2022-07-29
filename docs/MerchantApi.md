@@ -47,7 +47,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GenerateOtp**
-> GenerateOtp(ctx, body, transactionId, optional)
+> GenerateOtp(ctx, body, optional)
 Generate Otp
 
 ### Required Parameters
@@ -56,14 +56,12 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **body** | [**SharedIdentifier**](SharedIdentifier.md)|  | 
-  **transactionId** | **string**| payment id | 
  **optional** | ***MerchantApiGenerateOtpOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
 Optional parameters are passed through a pointer to a MerchantApiGenerateOtpOpts struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-
 
  **env** | **optional.**| api environment (sandbox,prod) | [default to sandbox]
 

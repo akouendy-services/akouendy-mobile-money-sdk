@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**CreatePayment**](PaymentApi.md#CreatePayment) | **Post** /v1/payment/create | create a Payment
 [**FindAllPayments**](PaymentApi.md#FindAllPayments) | **Get** /v1/payment/all | get all payments
 [**FindPayment**](PaymentApi.md#FindPayment) | **Get** /v1/payment/{id} | get a Payment
+[**ProviderNotifications**](PaymentApi.md#ProviderNotifications) | **Post** /v1/payment/{providerId}/notification | Incoming provider notifications
 [**RemovePayment**](PaymentApi.md#RemovePayment) | **Delete** /v1/payment/{id} | delete a Payment
 [**UpdatePayment**](PaymentApi.md#UpdatePayment) | **Put** /v1/payment/update | update a Payment
 
@@ -94,6 +95,33 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ProviderNotifications**
+> ProviderNotifications(ctx, body, providerId)
+Incoming provider notifications
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **body** | [**SharedTransaction**](SharedTransaction.md)|  | 
+  **providerId** | **string**| Provider ID | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[jwt](../README.md#jwt)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -26,6 +26,7 @@ Class | Method | HTTP request | Description
 *AccountApi* | [**GetAccount**](docs/AccountApi.md#getaccount) | **Get** /v1/account/{msisdn}/{type} | get a Settings
 *AccountApi* | [**GetRetailerBalance**](docs/AccountApi.md#getretailerbalance) | **Post** /v1/account/retailer/balance | Get retailer balance
 *AccountApi* | [**GetTransactionStatus**](docs/AccountApi.md#gettransactionstatus) | **Get** /v1/account/{transactionId}/status | get a Settings
+*AccountApi* | [**GetTransactions**](docs/AccountApi.md#gettransactions) | **Get** /v1/account/transactions | get a transactions
 *CashinApi* | [**CreateCashin**](docs/CashinApi.md#createcashin) | **Post** /v1/cashin/create | create a Cashin
 *CashinApi* | [**FindAllCashins**](docs/CashinApi.md#findallcashins) | **Get** /v1/cashin/all | get all cashins
 *CashinApi* | [**FindCashin**](docs/CashinApi.md#findcashin) | **Get** /v1/cashin/{id} | get a Cashin
@@ -44,6 +45,7 @@ Class | Method | HTTP request | Description
 *PaymentApi* | [**CreatePayment**](docs/PaymentApi.md#createpayment) | **Post** /v1/payment/create | create a Payment
 *PaymentApi* | [**FindAllPayments**](docs/PaymentApi.md#findallpayments) | **Get** /v1/payment/all | get all payments
 *PaymentApi* | [**FindPayment**](docs/PaymentApi.md#findpayment) | **Get** /v1/payment/{id} | get a Payment
+*PaymentApi* | [**ProviderNotifications**](docs/PaymentApi.md#providernotifications) | **Post** /v1/payment/{providerId}/notification | Incoming provider notifications
 *PaymentApi* | [**RemovePayment**](docs/PaymentApi.md#removepayment) | **Delete** /v1/payment/{id} | delete a Payment
 *PaymentApi* | [**UpdatePayment**](docs/PaymentApi.md#updatepayment) | **Put** /v1/payment/update | update a Payment
 *PaymentHistoryApi* | [**CreatePaymentHistory**](docs/PaymentHistoryApi.md#createpaymenthistory) | **Post** /v1/paymenthistory/create | create a PaymentHistory
@@ -76,6 +78,7 @@ Class | Method | HTTP request | Description
  - [MerchantInitPaymentRequest](docs/MerchantInitPaymentRequest.md)
  - [MerchantOneStepPayment](docs/MerchantOneStepPayment.md)
  - [MerchantPaymentQrcode](docs/MerchantPaymentQrcode.md)
+ - [Metadata](docs/Metadata.md)
  - [Partner](docs/Partner.md)
  - [PaymentCreateOrder](docs/PaymentCreateOrder.md)
  - [PaymentOrder](docs/PaymentOrder.md)
@@ -90,6 +93,7 @@ Class | Method | HTTP request | Description
  - [SharedPublicKey](docs/SharedPublicKey.md)
  - [SharedTestNumber](docs/SharedTestNumber.md)
  - [SharedTestNumberGrade](docs/SharedTestNumberGrade.md)
+ - [SharedTransaction](docs/SharedTransaction.md)
  - [SharedTransactionStatus](docs/SharedTransactionStatus.md)
 
 ## Documentation For Authorization

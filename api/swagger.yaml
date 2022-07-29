@@ -77,6 +77,66 @@ paths:
       security:
       - jwt: []
       x-codegen-request-body-name: body
+  /v1/account/transactions:
+    get:
+      tags:
+      - Account
+      summary: get a transactions
+      operationId: getTransactions
+      parameters:
+      - name: env
+        in: header
+        description: "api environment (sandbox,prod)"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          default: sandbox
+      - name: status
+        in: query
+        description: "Transactions status. e.g. SUCCESS, FAILED"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: fromDateTime
+        in: query
+        description: Sart date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: toDateTime
+        in: query
+        description: End date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/shared.Transaction'
+                x-content-type: application/json
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/shared.Transaction'
+        "404":
+          description: Not Found
+          content: {}
+      security:
+      - jwt: []
   /v1/account/{msisdn}/{type}:
     get:
       tags:
@@ -399,14 +459,6 @@ paths:
         schema:
           type: string
           default: sandbox
-      - name: transactionId
-        in: path
-        description: payment id
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       requestBody:
         content:
           application/json:
@@ -809,6 +861,37 @@ paths:
           content: {}
       security:
       - jwt: []
+  /v1/payment/{providerId}/notification:
+    post:
+      tags:
+      - Payment
+      summary: Incoming provider notifications
+      operationId: providerNotifications
+      parameters:
+      - name: providerId
+        in: path
+        description: Provider ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shared.Transaction'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/shared.Transaction'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content: {}
+      security:
+      - jwt: []
+      x-codegen-request-body-name: body
   /v1/paymenthistory/all:
     get:
       tags:
@@ -1336,8 +1419,11 @@ components:
         unit:
           type: string
         value:
-          type: integer
-          format: int32
+          type: number
+          format: double
+      example:
+        unit: unit
+        value: 0.8008281904610115
     ".balance":
       required:
       - unit
@@ -1356,15 +1442,19 @@ components:
       required:
       - id
       - idType
-      - otp
+      - walletType
       type: object
       properties:
         id:
           type: string
         idType:
           type: string
-        otp:
+        walletType:
           type: string
+      example:
+        idType: idType
+        walletType: walletType
+        id: id
     ".frozenBalance":
       required:
       - unit
@@ -1379,16 +1469,25 @@ components:
       example:
         unit: unit
         value: 6.027456183070403
+    ".metadata":
+      type: object
     ".partner":
       required:
       - id
       - idType
+      - walletType
       type: object
       properties:
         id:
           type: string
         idType:
           type: string
+        walletType:
+          type: string
+      example:
+        idType: idType
+        walletType: walletType
+        id: id
     cashin.Cashin:
       required:
       - ID
@@ -1533,22 +1632,34 @@ components:
         AppName: AppName
     payment.Payment:
       required:
+      - Amount
       - BillingProvider
+      - Channel
       - Email
+      - Env
       - FullName
       - Histories
       - ID
       - MerchantData
       - OrderRefer
       - PayUrl
+      - ProviderRequestDate
       - ProviderResponse
+      - ProviderTrxID
       - Status
       - TrxID
       type: object
       properties:
+        Amount:
+          type: number
+          format: double
         BillingProvider:
           type: string
+        Channel:
+          type: string
         Email:
+          type: string
+        Env:
           type: string
         FullName:
           type: string
@@ -1564,7 +1675,12 @@ components:
           type: string
         PayUrl:
           type: string
+        ProviderRequestDate:
+          type: string
+          format: date-time
         ProviderResponse:
+          type: string
+        ProviderTrxID:
           type: string
         Status:
           type: string
@@ -1573,12 +1689,16 @@ components:
       example:
         Status: Status
         TrxID: TrxID
-        MerchantData: MerchantData
         Email: Email
         ProviderResponse: ProviderResponse
+        Amount: 0.8008281904610115
+        Channel: Channel
+        BillingProvider: BillingProvider
+        Env: Env
+        ProviderTrxID: ProviderTrxID
+        MerchantData: MerchantData
         PayUrl: PayUrl
         FullName: FullName
-        BillingProvider: BillingProvider
         Histories:
         - Status: Status
           PaymentRefer: PaymentRefer
@@ -1588,6 +1708,7 @@ components:
           PaymentRefer: PaymentRefer
           ResponseData: ResponseData
           ID: ID
+        ProviderRequestDate: 2000-01-23T04:56:07.000+00:00
         ID: ID
         OrderRefer: OrderRefer
     payment.PaymentHistory:
@@ -1866,6 +1987,74 @@ components:
         expiresAt: 2000-01-23T04:56:07.000+00:00
     shared.TestNumber.grade:
       type: object
+    shared.Transaction:
+      required:
+      - amount
+      - channel
+      - createdAt
+      - customer
+      - metadata
+      - partner
+      - receiveNotification
+      - reference
+      - requestDate
+      - status
+      - transactionId
+      - type
+      - updatedAt
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/.amount'
+        channel:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        customer:
+          $ref: '#/components/schemas/.customer'
+        metadata:
+          $ref: '#/components/schemas/.metadata'
+        partner:
+          $ref: '#/components/schemas/.partner'
+        receiveNotification:
+          type: boolean
+        reference:
+          type: string
+        requestDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+        transactionId:
+          type: string
+        type:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        amount:
+          unit: unit
+          value: 0.8008281904610115
+        metadata: {}
+        channel: channel
+        type: type
+        transactionId: transactionId
+        reference: reference
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        receiveNotification: true
+        partner:
+          idType: idType
+          walletType: walletType
+          id: id
+        requestDate: 2000-01-23T04:56:07.000+00:00
+        customer:
+          idType: idType
+          walletType: walletType
+          id: id
+        status: status
+        updatedAt: 2000-01-23T04:56:07.000+00:00
     shared.TransactionStatus:
       required:
       - description

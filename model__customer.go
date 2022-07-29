@@ -12,5 +12,5 @@ package swagger
 type Customer struct {
 	Id string `json:"id"`
 	IdType string `json:"idType"`
-	Otp string `json:"otp"`
+	WalletType string `json:"walletType"`
 }
