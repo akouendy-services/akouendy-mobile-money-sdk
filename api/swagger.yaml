@@ -1561,12 +1561,16 @@ components:
           type: string
     merchant.PaymentQrcode:
       required:
+      - deepLink
       - qrCode
       type: object
       properties:
+        deepLink:
+          type: string
         qrCode:
           type: string
       example:
+        deepLink: deepLink
         qrCode: qrCode
     payment.CreateOrder:
       required:

@@ -10,5 +10,6 @@
 package swagger
 
 type MerchantPaymentQrcode struct {
+	DeepLink string `json:"deepLink"`
 	QrCode string `json:"qrCode"`
 }
